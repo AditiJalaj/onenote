@@ -10,17 +10,27 @@ const Sidebar = ({notes,classes,selectedNoteIndex}) => {
     const [addingNote,setAddingNote]=useState(false)
     const [title,setTitle]=useState(null)
 
-    
+
     const newNoteBtnClick=()=>{
-        console.log("NEW BTN CLICKED")
+        setAddingNote(!addingNote)
     }
 
+    const updateTitle =(txt)=>{
+        console.log('HERE IT IS : ',txt)
+    }
     return ( 
         <div className={classes.sidebar}>
         <Button 
         onClick={newNoteBtnClick} 
         className={classes.newNoteBtn}>
         New Note
+        { addingNote?<div><input type="text" 
+        className={classes.newNoteInput}
+        placeholder='Enter note title'
+        onKeyUp={(e)=>{updateTitle(e.target.value)}}
+        ></input></div> : 
+        null
+        }
         </Button>
         </div>
      );
