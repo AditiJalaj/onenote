@@ -1,9 +1,7 @@
 const App=()=>{
     let timer
     const getData=()=>{
-  
       clearTimeout(timer);
-  
       timer=setTimeout(()=>{
         console.log("fetching data")
       },2000)

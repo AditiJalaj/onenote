@@ -30,7 +30,7 @@ let counter=0;
   return ( 
     <div className="app-container">
     <Editor/>
-    <SideBar/>
+    <SideBar selectedNoteIndex={selectedNoteIndex} notes={notes}/>
     </div>
    );
 }
