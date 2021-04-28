@@ -4,8 +4,6 @@ import firebase from 'firebase'
 import SideBar from './side-bar/sidebar'
 import Editor from './editor/editor'
 
-
-
 const  App= () => {
 
   const [selectedNoteIndex,setSelectedNoteIndex]=useState(null)
