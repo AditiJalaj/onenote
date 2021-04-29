@@ -17,6 +17,18 @@ const  App= () => {
     notes set to ${selectedNote}`)
   }
 
+  const noteUpdate=(id,noteObj)=>{
+    firebase
+    .firestore()
+    .collection('notes')
+    .doc(id)
+    .update({
+      title:noteObj.title,
+      body:noteObj.body,
+      timestamp:firebase.firestore.FieldValue.serverTimestamp()
+    })
+  }
+
   let counter=0;
   useEffect(()=>{
     console.log(counter++)
@@ -44,11 +56,14 @@ const  App= () => {
      selectNote={selectNote}
     //  newNote={newNote}
      />
+
     {
-      selectedNote ? (<Editor
+      selectedNote ? 
+      (<Editor
     selectedNote={selectedNote}
     selectedNoteIndex={selectedNoteIndex}
     notes={notes}
+    noteUpdate={noteUpdate}
     />):(
       null
     )

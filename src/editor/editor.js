@@ -7,34 +7,30 @@ import {useState} from 'react'
 // import debounce from '../helpers';
 
 
-const Editor = ({classes}) => {
+const Editor = ({classes,selectedNote,noteUpdate}) => {
     const [text,setText]=useState('')
     const [title,setTitle]=useState('')
     const [id,setId]=useState('')
 
-    // const update=debounce(()=>{
-    //     //not working
-    //     console.log('updating database')
-    // },3000)
-    // const updateBody=async(val)=>{
-    //     await setText(val)
-    //     update()
-    // }
   
 
     let timer 
     const updateBody=()=>{
             clearTimeout(timer);
             timer=setTimeout(()=>{
-              console.log("fetching data")
+              noteUpdate(id,{
+                  title:title,
+                  body:text
+              })
             },2000)
           }
 
-    // useEffect(()=>{
-    //     setText(selectedNote.body)
-    //     setTitle(selectedNote.title)
-    //     setId(selectedNote.id)
-    // })
+
+    useEffect(()=>{
+        setText(selectedNote.body)
+        setTitle(selectedNote.title)
+        setId(selectedNote.id)
+    })
     
     return ( 
         <div className={classes.editorContainer}>
