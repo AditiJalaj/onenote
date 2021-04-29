@@ -9,7 +9,15 @@ const  App= () => {
   const [selectedNoteIndex,setSelectedNoteIndex]=useState(null)
   const [selectedNote,setSelectedNote]=useState(null)
   const [notes,setNotes]=useState(null)
-let counter=0;
+
+  const selectNote=(note,index)=>{
+    setSelectedNote(note)
+    setSelectedNoteIndex(index)
+    console.log(`notes index set to ${selectedNoteIndex} & 
+    notes set to ${selectedNote}`)
+  }
+
+  let counter=0;
   useEffect(()=>{
     console.log(counter++)
     console.log('useEffect ran')
@@ -29,8 +37,23 @@ let counter=0;
 
   return ( 
     <div className="app-container">
-    <Editor/>
-    <SideBar selectedNoteIndex={selectedNoteIndex} notes={notes}/>
+    <SideBar
+     selectedNoteIndex={selectedNoteIndex}
+     notes={notes}
+    //  deleteNote={deleteNote}
+     selectNote={selectNote}
+    //  newNote={newNote}
+     />
+    {
+      selectedNote ? (<Editor
+    selectedNote={selectedNote}
+    selectedNoteIndex={selectedNoteIndex}
+    notes={notes}
+    />):(
+      null
+    )
+  }
+    
     </div>
    );
 }

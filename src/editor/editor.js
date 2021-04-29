@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import { withStyles } from '@material-ui/core/styles';
@@ -30,10 +29,17 @@ const Editor = ({classes}) => {
               console.log("fetching data")
             },2000)
           }
+
+    // useEffect(()=>{
+    //     setText(selectedNote.body)
+    //     setTitle(selectedNote.title)
+    //     setId(selectedNote.id)
+    // })
     
     return ( 
         <div className={classes.editorContainer}>
-        <ReactQuill value={text} 
+        <ReactQuill 
+        value={text} 
         onChange={updateBody}/>
         </div>
      );
