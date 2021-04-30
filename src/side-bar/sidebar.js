@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import { Divider, Button } from '@material-ui/core';
 import SidebarItemComponent from '../side-bar-item/sidebaritem';
 
-const Sidebar = ({notes,classes,selectedNoteIndex,selectNote:selNote}) => {
+const Sidebar = ({notes,classes,selectedNoteIndex,selectNote:selNote,newNote:newN}) => {
 
     const [addingNote,setAddingNote]=useState(false)
     const [title,setTitle]=useState(null)
@@ -18,6 +18,9 @@ const Sidebar = ({notes,classes,selectedNoteIndex,selectNote:selNote}) => {
         setTitle(txt)
     }
     const newNote=()=>{
+        newN(title)
+        setTitle(null)
+        setAddingNote(false)
         console.log(`Adding note is ${addingNote}, title is ${title}`)
         console.log("notes is ",notes)
     }

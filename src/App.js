@@ -3,6 +3,7 @@ import './App.css';
 import firebase from 'firebase'
 import SideBar from './side-bar/sidebar'
 import Editor from './editor/editor'
+import { debounce } from '@material-ui/core';
 
 const  App= () => {
 
@@ -27,6 +28,30 @@ const  App= () => {
       body:noteObj.body,
       timestamp:firebase.firestore.FieldValue.serverTimestamp()
     })
+  }
+
+  const newNote=async(title)=>{
+    const note={
+      title:title,
+      body:''
+    }
+    const newFromDB=await firebase
+    .firestore()
+    .collection('notes')
+    .add({
+      title:note.title,
+      body:note.body,
+      timestamp:firebase.firestore.FieldValue.serverTimestamp()
+    })
+
+    // const timestamp=firebase.firestore.FieldValue.serverTimestamp();
+    // firebase.firestore.collection('notes').orderBy('timestamp')
+   
+    const newID=newFromDB.id;
+    await setNotes([...notes,note])
+    const newNoteIndex=notes.indexOf(notes.filter(n=>n.id===newID)[0])
+    setSelectedNote(notes[newNoteIndex])
+    setSelectedNoteIndex(newNoteIndex)
   }
 
   let counter=0;
@@ -54,7 +79,7 @@ const  App= () => {
      notes={notes}
     //  deleteNote={deleteNote}
      selectNote={selectNote}
-    //  newNote={newNote}
+     newNote={newNote}
      />
 
     {
