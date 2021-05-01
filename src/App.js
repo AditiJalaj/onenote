@@ -54,6 +54,29 @@ const  App= () => {
     setSelectedNoteIndex(newNoteIndex)
   }
 
+  const deleteNote = async (note) => {
+    const noteIndex = notes.indexOf(note);
+    await setNotes(notes.filter(n=>n!==note))
+ 
+    if(selectedNoteIndex === noteIndex) {
+      setSelectedNoteIndex(null)
+      setSelectedNote(null)
+    
+    } else {
+      notes.length > 1 ?
+      selectNote(notes[selectedNoteIndex - 1], selectedNoteIndex - 1) :
+      setSelectedNoteIndex(null)
+      setSelectedNote(null)
+     
+    }
+
+    firebase
+      .firestore()
+      .collection('notes')
+      .doc(note.id)
+      .delete();
+  }
+
   let counter=0;
   useEffect(()=>{
     console.log(counter++)
@@ -65,8 +88,8 @@ const  App= () => {
       const notes=serverUpdate.docs.map(doc=>{
         const data=doc.data()
         data['id']=doc.id
-         return data
-      })
+        return data;
+      });
       console.log(notes)
       setNotes(notes)
     });
@@ -77,13 +100,13 @@ const  App= () => {
     <SideBar
      selectedNoteIndex={selectedNoteIndex}
      notes={notes}
-    //  deleteNote={deleteNote}
+     deleteNote={deleteNote}
      selectNote={selectNote}
      newNote={newNote}
      />
 
     {
-      selectedNote ? 
+    selectedNote ? 
       (<Editor
     selectedNote={selectedNote}
     selectedNoteIndex={selectedNoteIndex}

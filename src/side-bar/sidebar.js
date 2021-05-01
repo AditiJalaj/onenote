@@ -5,49 +5,51 @@ import List from '@material-ui/core/List';
 import { Divider, Button } from '@material-ui/core';
 import SidebarItemComponent from '../side-bar-item/sidebaritem';
 
-const Sidebar = ({notes,classes,selectedNoteIndex,selectNote:selNote,newNote:newN}) => {
+const Sidebar = ({notes,classes,selectedNoteIndex,selectNote,newNote,deleteNote}) => {
 
     const [addingNote,setAddingNote]=useState(false)
     const [title,setTitle]=useState(null)
 
-    const newNoteBtnClick=()=>{
-        setAddingNote(!addingNote)
-        setTitle(null)
-    }
-    const updateTitle =(txt)=>{
-        setTitle(txt)
-    }
-    const newNote=()=>{
-        newN(title)
-        setTitle(null)
-        setAddingNote(false)
-        console.log(`Adding note is ${addingNote}, title is ${title}`)
-        console.log("notes is ",notes)
-    }
-    const selectNote=(n,i)=>{
-       selNote(n,i)
-    }
-    const deleteNote=()=>{
-        console.log("Delete Note")
-    }
-
+const newNoteBtnClick = () => {
+    setTitle(null)
+    setAddingNote(!addingNote)
     
-        return ( 
-            <div>
-            
+  }
+const updateTitle = (txt) => {
+    setTitle(txt)
+  }
+
+
+  //chanegd const to newNote here
+  newNote = () => {
+    if(title!==null){
+     newNote(title)
+     setTitle(null)
+     setAddingNote(false)
+    }
+    else{alert("ENTER TITLE...")}
+  }
+  selectNote = (n, i) => selectNote(n, i);
+  deleteNote = (note) => deleteNote(note);
+
+
+     return ( 
+        <div>
             { notes ? 
             (
-            <div className={classes.sidebar}>
+            <div className={classes.sidebarContainer}>
             <Button 
             onClick={newNoteBtnClick} 
             className={classes.newNoteBtn}>
             {addingNote?'Cancel':'New Note'}
            </Button>
-            { addingNote ? <div><input type="text" 
+            { 
+                addingNote ? <div><input type="text" 
             className={classes.newNoteInput}
             placeholder='Enter note title'
-            onKeyUp={(e)=>{updateTitle(e.target.value)}}
+            onKeyUp={(e)=>updateTitle(e.target.value)}
             ></input>
+
             <Button className={classes.newNoteSubmitBtn}
             onClick={newNote}>Submit Note
             </Button>
@@ -56,12 +58,12 @@ const Sidebar = ({notes,classes,selectedNoteIndex,selectNote:selNote,newNote:new
             }
             <List>
             {
-                notes.map((note,index)=>{
+                notes.map((_note,_index)=>{
                     return (
-                        <div key={index}>
+                        <div key={_index}>
                         <SidebarItemComponent 
-                        note={note}
-                        index={index}
+                        _note={_note}
+                        _index={_index}
                         selectedNoteIndex={selectedNoteIndex}
                         selectNote={selectNote}
                         deleteNote={deleteNote}>

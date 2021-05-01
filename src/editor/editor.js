@@ -4,7 +4,7 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 import {useState} from 'react'
-// import debounce from '../helpers';
+import debounce from '../helpers';
 
 
 const Editor = ({classes,selectedNote,noteUpdate}) => {
@@ -13,31 +13,55 @@ const Editor = ({classes,selectedNote,noteUpdate}) => {
     const [id,setId]=useState('')
 
   
-
-    let timer 
-    const updateBody=()=>{
-            clearTimeout(timer);
-            timer=setTimeout(()=>{
-              noteUpdate(id,{
-                  title:title,
-                  body:text
-              })
-            },2000)
-          }
+useEffect(()=>{
+   setText(selectedNote.body)
+   setTitle(selectedNote.title)
+   setId(selectedNote.id)
+  },[]) /////////////////////////////////////////////////
 
 
-    useEffect(()=>{
-        setText(selectedNote.body)
-        setTitle(selectedNote.title)
-        setId(selectedNote.id)
-    })
+  useEffect(()=>{
+    if(selectedNote.id!==id)
+    {
+      setText(selectedNote.body)
+      setTitle(selectedNote.title)
+      setId(selectedNote.id)
+    }
+  })
+
+
+   const  updateBody = async (val) => {
+     await setText(val)
+     update();
+    };
+
+   const updateTitle = async (txt) => {
+      await setTitle(txt);
+      update();
+    }
+
+   const update = debounce(() => {
+     noteUpdate(id, {
+        title: title,
+        body: text
+      })
+    }, 1500);
+
     
     return ( 
-        <div className={classes.editorContainer}>
-        <ReactQuill 
+      <div className={classes.editorContainer}>
+      <BorderColorIcon className={classes.editIcon}></BorderColorIcon>
+      <input
+        className={classes.titleInput}
+        placeholder='Note title...'
+        value={title ? title : ''}
+        onChange={(e) => updateTitle(e.target.value)}>
+      </input>
+      <ReactQuill 
         value={text} 
-        onChange={updateBody}/>
-        </div>
+        onChange={updateBody}>
+      </ReactQuill>
+    </div>
      );
 }
  
