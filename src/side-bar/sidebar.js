@@ -20,7 +20,7 @@ const updateTitle = (txt) => {
   }
 
 
-  //chanegd const to newNote here
+  //changed const to newNote here
   newNote = () => {
     if(title!==null){
      newNote(title)
